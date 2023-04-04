@@ -3,9 +3,8 @@ import { Role } from '../../../models/Role'
 import { AdminTabParamList } from '../../admin/admin'
 
 export type AppStackParamList = {
-  Home: undefined
   RoleProfileScreen: { roles: Role[] }
-  AdminTab: AdminTabParamList
+  AdminTab: undefined | { screen: keyof AdminTabParamList }
 }
 
-export type AppNavigation = NativeStackNavigationProp<AppStackParamList>
+export type AppNavigationProps = NativeStackNavigationProp<AppStackParamList>

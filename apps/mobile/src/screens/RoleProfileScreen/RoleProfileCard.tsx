@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import { Role } from '../../models/Role'
+import { AppNavigationProps } from '../../routes/types/app'
 const costumerImage = require('../../../assets/costumer.png')
 const adminImage = require('../../../assets/admin.png')
 const restaurantImage = require('../../../assets/restaurant.png')
@@ -16,6 +18,7 @@ export default function RoleProfileCard({
   height,
   width,
 }: RoleProfileCardProps) {
+  const navigation = useNavigation<AppNavigationProps>()
   const getRolesImage = (roleName: string) => {
     switch (roleName.toLowerCase()) {
       case 'admin':
@@ -39,6 +42,9 @@ export default function RoleProfileCard({
       className="items-center pb-5 px-2 self-center"
       style={{ width, height }}
       activeOpacity={0.75}
+      onPress={() => {
+        navigation.navigate('AdminTab', { screen: 'AdminHome' })
+      }}
     >
       <View className="bg-white rounded-3xl flex-1">
         <Image

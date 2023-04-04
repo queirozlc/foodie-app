@@ -1,5 +1,5 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 export type AdminHomeStackParamList = {
   Category: undefined
@@ -15,18 +15,18 @@ export type AdminProfileStackParamList = {
 }
 
 export type AdminTabParamList = {
-  AdminHome: AdminHomeStackParamList
-  AdminOrders: AdminOrderStackParamList
-  AdminProfiles: AdminProfileStackParamList
+  AdminHome: undefined
+  AdminOrders: undefined
+  AdminProfiles: undefined
 }
 
 export type AdminTabNavigation = BottomTabNavigationProp<AdminTabParamList>
 
 export type AdminHomeStackNavigation =
-  NativeStackNavigationProp<AdminHomeStackParamList>
+  NativeStackScreenProps<AdminHomeStackParamList>
 
 export type AdminOrderStackNavigation =
-  NativeStackNavigationProp<AdminOrderStackParamList>
+  NativeStackScreenProps<AdminOrderStackParamList>
 
 export type AdminProfileStackNavigation =
-  NativeStackNavigationProp<AdminProfileStackParamList>
+  NativeStackScreenProps<AdminProfileStackParamList>
