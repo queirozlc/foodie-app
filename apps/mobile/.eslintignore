@@ -1,0 +1,5 @@
+node_modules
+./generators
+.expo
+.vscode
+.env
