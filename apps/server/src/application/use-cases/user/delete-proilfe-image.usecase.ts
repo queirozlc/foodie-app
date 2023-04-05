@@ -17,8 +17,6 @@ export class DeleteProfileImageUseCase {
       profileImage: null,
     });
 
-    console.log(user);
-
     if (!image) {
       throw new BadRequestException('User does not have profile Image');
     }
