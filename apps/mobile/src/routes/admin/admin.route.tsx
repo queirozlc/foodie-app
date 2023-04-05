@@ -34,6 +34,7 @@ const AdminProfilesStackScreen = () => (
   <ProfileStack.Navigator
     screenOptions={{
       animation: 'slide_from_right',
+      headerShown: false,
     }}
   >
     <ProfileStack.Screen name="Profile" component={ProfileScreen} />

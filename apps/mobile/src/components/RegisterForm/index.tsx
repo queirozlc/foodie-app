@@ -33,10 +33,8 @@ export default function RegisterForm() {
   async function handleSignUp(data: CreateUserDto) {
     try {
       const response = await signUp(data)
-      console.log(response)
     } catch (error) {
       const { response } = error as AxiosError<ExceptionDetails>
-      console.log(response?.data?.message as string)
     }
   }
 

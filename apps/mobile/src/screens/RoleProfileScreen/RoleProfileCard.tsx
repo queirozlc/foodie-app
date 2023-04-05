@@ -32,6 +32,14 @@ export default function RoleProfileCard({
     }
   }
 
+  function handleNavigation(roleName: string) {
+    switch (roleName.toLowerCase()) {
+      case 'admin':
+        navigation.navigate('AdminTab', { screen: 'AdminHome' })
+        break
+    }
+  }
+
   const rolesImage = {
     ...roles,
     image: getRolesImage(roles.name),
