@@ -18,7 +18,6 @@ import { S3Module } from './infra/s3/s3.module';
       rootPath: join(__dirname, '..', '..', 'tmp', 'uploads'),
     }),
   ],
-  controllers: [],
   providers: [
     {
       provide: APP_GUARD,
