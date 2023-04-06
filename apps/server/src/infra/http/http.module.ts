@@ -1,6 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { UserRepository } from 'src/application/repositories/user.repository';
 import { JwtStrategy } from 'src/application/strategies/jwt.strategy';
 import { LocalStrategy } from 'src/application/strategies/local.strategy';
 import { AuthenticateUserUseCase } from 'src/application/use-cases/auth/authenticate-user.usecase';
@@ -8,6 +9,7 @@ import { CreateUserUseCase } from 'src/application/use-cases/auth/create-user.us
 import { ValidateUserUseCase } from 'src/application/use-cases/auth/validate-user.usecase';
 import { DeleteProfileImageUseCase } from 'src/application/use-cases/user/delete-proilfe-image.usecase';
 import { DeleteUserUseCase } from 'src/application/use-cases/user/delete-user.usecase';
+import { UpdateUserUseCase } from 'src/application/use-cases/user/update-user.usecase';
 import { UploadProfileImageUseCase } from 'src/application/use-cases/user/upload-profile-image.usecase';
 import { DatabaseModule } from '../database/database.module';
 import { S3Module } from '../s3/s3.module';
@@ -37,6 +39,13 @@ import { PassportLocalStrategy } from './strategies/passport-local.strategy';
     AuthenticateUserUseCase,
     UploadProfileImageUseCase,
     DeleteProfileImageUseCase,
+    {
+      provide: UpdateUserUseCase,
+      useFactory(repository: UserRepository) {
+        return new UpdateUserUseCase(repository);
+      },
+      inject: [UserRepository],
+    },
     DeleteUserUseCase,
     RoleGuard,
     {

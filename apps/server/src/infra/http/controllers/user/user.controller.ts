@@ -8,7 +8,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { HttpCode } from '@nestjs/common/decorators';
+import { Body, HttpCode, Put } from '@nestjs/common/decorators';
 import { HttpStatus } from '@nestjs/common/enums';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { unlink as fsUnlink } from 'fs';
@@ -16,11 +16,13 @@ import { join } from 'path';
 import { RoleName } from 'src/application/enums/role.enum';
 import { DeleteProfileImageUseCase } from 'src/application/use-cases/user/delete-proilfe-image.usecase';
 import { DeleteUserUseCase } from 'src/application/use-cases/user/delete-user.usecase';
+import { UpdateUserUseCase } from 'src/application/use-cases/user/update-user.usecase';
 import { UploadProfileImageUseCase } from 'src/application/use-cases/user/upload-profile-image.usecase';
 import { S3Service } from 'src/infra/s3/s3.service';
 import { promisify } from 'util';
 import { multerConfig } from '../../config/multer.config';
 import { Roles } from '../../decorators/role.decorator';
+import { UpdateUserDto } from '../../dtos/update-user.dto';
 import { RoleGuard } from '../../guards/role.guard';
 
 @Controller('users')
@@ -29,6 +31,7 @@ export class UserController {
     private readonly s3Service: S3Service,
     private readonly uploadProfileImageUseCase: UploadProfileImageUseCase,
     private readonly deleteProfileImageUseCase: DeleteProfileImageUseCase,
+    private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly deleteUserUseCase: DeleteUserUseCase,
   ) {}
 
@@ -83,5 +86,16 @@ export class UserController {
   @HttpCode(HttpStatus.OK)
   async delete(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.deleteUserUseCase.execute(id);
+  }
+
+  @Put('/:id')
+  @Roles(RoleName.COSTUMER, RoleName.ADMIN)
+  @UseGuards(RoleGuard)
+  @HttpCode(HttpStatus.OK)
+  async updateUser(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() request: UpdateUserDto,
+  ) {
+    return await this.updateUserUseCase.execute(id, request);
   }
 }

@@ -30,7 +30,7 @@ export class PrismaUserRepository implements UserRepository {
     return {
       ...user,
       profileImage: user?.profile_image,
-      roles: user?.roles.map((role) => RoleMapper.toDomain(role)),
+      roles: user.roles.map((role) => RoleMapper.toDomain(role)),
     };
   }
 
@@ -63,7 +63,7 @@ export class PrismaUserRepository implements UserRepository {
   }
 
   async update(id: string, data: UpdateUserDto): Promise<User> {
-    const { email, password, name, profileImage } = data;
+    const { email, name, profileImage } = data;
 
     return await this.prisma.user.update({
       where: {
@@ -71,7 +71,6 @@ export class PrismaUserRepository implements UserRepository {
       },
       data: {
         email,
-        password,
         name,
         profile_image: profileImage,
       },
