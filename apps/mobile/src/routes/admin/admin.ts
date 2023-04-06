@@ -1,5 +1,6 @@
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack/lib/typescript/src/types'
+import { User } from '../../models/User'
 
 export type AdminHomeStackParamList = {
   Category: undefined
@@ -12,6 +13,7 @@ export type AdminOrderStackParamList = {
 export type AdminProfileStackParamList = {
   Profile: undefined
   Settings: undefined
+  ProfileUpdate: { user: User }
 }
 
 export type AdminTabParamList = {

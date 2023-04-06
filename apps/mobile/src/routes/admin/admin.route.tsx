@@ -6,6 +6,7 @@ import CategoryScreen from '../../screens/Admin/Home/Category'
 import OrderScreen from '../../screens/Admin/Orders'
 import ProfileScreen from '../../screens/Admin/Profile'
 import AdminSettingsScreen from '../../screens/Admin/Profile/Settings'
+import ProfileUpdateScreen from '../../screens/Admin/Profile/screens/ProfileUpdate'
 import {
   AdminHomeStackParamList,
   AdminOrderStackParamList,
@@ -39,6 +40,7 @@ const AdminProfilesStackScreen = () => (
   >
     <ProfileStack.Screen name="Profile" component={ProfileScreen} />
     <ProfileStack.Screen name="Settings" component={AdminSettingsScreen} />
+    <ProfileStack.Screen name="ProfileUpdate" component={ProfileUpdateScreen} />
   </ProfileStack.Navigator>
 )
 
