@@ -30,6 +30,8 @@ export class CreateUserUseCase {
     const payload: JwtPayload = {
       email: userCreated.email,
       name: userCreated.name,
+      profileImage: userCreated.profileImage || undefined,
+      roles: userCreated.roles,
       sub: userCreated.id,
     };
 

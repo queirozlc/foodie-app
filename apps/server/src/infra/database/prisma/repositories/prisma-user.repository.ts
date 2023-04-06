@@ -52,6 +52,9 @@ export class PrismaUserRepository implements UserRepository {
           },
         },
       },
+      include: {
+        roles: true,
+      },
     });
 
     return {
@@ -59,6 +62,7 @@ export class PrismaUserRepository implements UserRepository {
       name,
       password,
       profileImage: user.profile_image,
+      roles: user.roles.map((role) => RoleMapper.toDomain(role)),
     };
   }
 
@@ -89,7 +93,7 @@ export class PrismaUserRepository implements UserRepository {
 
     return {
       ...user,
-      profileImage: user.profile_image,
+      profileImage: user?.profile_image,
       roles: user.roles.map((role) => RoleMapper.toDomain(role)),
     };
   }
