@@ -1,6 +1,8 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { MulterModule } from '@nestjs/platform-express';
+import { UploadFileProvider } from 'src/application/ports/upload-file-provider.service';
 import { UserRepository } from 'src/application/repositories/user.repository';
 import { JwtStrategy } from 'src/application/strategies/jwt.strategy';
 import { LocalStrategy } from 'src/application/strategies/local.strategy';
@@ -13,15 +15,18 @@ import { UpdateUserUseCase } from 'src/application/use-cases/user/update-user.us
 import { UploadProfileImageUseCase } from 'src/application/use-cases/user/upload-profile-image.usecase';
 import { DatabaseModule } from '../database/database.module';
 import { S3Module } from '../s3/s3.module';
+import { S3Service } from '../s3/s3.service';
 import { AuthController } from './controllers/auth/auth.controller';
 import { UserController } from './controllers/user/user.controller';
 import { RoleGuard } from './guards/role.guard';
 import { LoginValidationMiddleware } from './middleware/login.middleware';
+import { multerConfig } from './middleware/multer.middleware';
 import { PassportJwtStrategy } from './strategies/passport-jwt.strategy';
 import { PassportLocalStrategy } from './strategies/passport-local.strategy';
 
 @Module({
   imports: [
+    MulterModule.register(multerConfig),
     DatabaseModule,
     S3Module,
     PassportModule,
@@ -39,6 +44,8 @@ import { PassportLocalStrategy } from './strategies/passport-local.strategy';
     AuthenticateUserUseCase,
     UploadProfileImageUseCase,
     DeleteProfileImageUseCase,
+    DeleteUserUseCase,
+    RoleGuard,
     {
       provide: UpdateUserUseCase,
       useFactory(repository: UserRepository) {
@@ -46,11 +53,13 @@ import { PassportLocalStrategy } from './strategies/passport-local.strategy';
       },
       inject: [UserRepository],
     },
-    DeleteUserUseCase,
-    RoleGuard,
     {
       provide: LocalStrategy,
       useClass: PassportLocalStrategy,
+    },
+    {
+      provide: UploadFileProvider,
+      useClass: S3Service,
     },
     {
       provide: JwtStrategy,
