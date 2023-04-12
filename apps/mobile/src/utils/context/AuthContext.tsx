@@ -17,6 +17,7 @@ interface AuthContextData {
   signOut: () => Promise<void>
   isAuthenticated: boolean
   loading: boolean
+  setUser: (user: User | null) => void
 }
 
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
@@ -139,6 +140,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
         isAuthenticated: !!user,
         loading,
         signOut,
+        setUser,
       }}
     >
       {children}

@@ -1,9 +1,13 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect } from 'react'
+import { AxiosError } from 'axios'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Image, Pressable, Text, View } from 'react-native'
 import ControlInput from '../../../../../components/AuthInput/ControlInput'
+import { ExceptionDetails } from '../../../../../exceptions/Exception'
 import { User } from '../../../../../models/User'
+import { useAuth } from '../../../../../utils/hooks/useAuth'
+import { useUser } from '../../../../../utils/hooks/useUser'
 import { useYup } from '../../../../../utils/hooks/useYup'
 import ProfileBanner from '../ProfileBanner'
 
@@ -20,6 +24,9 @@ interface UpdateUserFormProps {
 
 export default function ProfileUpdateForm({ user }: ProfileUpdateFormProps) {
   const { updateUserSchema } = useYup()
+  const { update } = useUser()
+  const [successMessage, setSuccessMessage] = useState<string>('')
+  const { setUser } = useAuth()
 
   const {
     control,
@@ -38,8 +45,21 @@ export default function ProfileUpdateForm({ user }: ProfileUpdateFormProps) {
     }
   }, [])
 
-  function handleUpdateUser(data: UpdateUserFormProps) {
-    console.log(data)
+  async function handleUpdateUser(data: UpdateUserFormProps) {
+    try {
+      await update({
+        ...data,
+        id: user?.id,
+      })
+      setUser({
+        ...user,
+        ...data,
+      })
+      setSuccessMessage('User updated successfully')
+    } catch (error) {
+      const { response } = error as AxiosError<ExceptionDetails>
+      console.log(response?.data)
+    }
   }
 
   return (
@@ -86,6 +106,12 @@ export default function ProfileUpdateForm({ user }: ProfileUpdateFormProps) {
             error={errors.email}
           />
         </View>
+
+        {successMessage && (
+          <Text className="font-poppins-semi text-sm pl-8 text-soft-gray-500">
+            {successMessage}
+          </Text>
+        )}
 
         <View>
           <Pressable
