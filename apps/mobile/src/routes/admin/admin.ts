@@ -4,6 +4,7 @@ import { User } from '../../models/User'
 
 export type AdminHomeStackParamList = {
   Category: undefined
+  CreateCategory: undefined
 }
 
 export type AdminOrderStackParamList = {

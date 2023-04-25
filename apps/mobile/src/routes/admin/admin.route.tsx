@@ -7,6 +7,8 @@ import OrderScreen from '../../screens/Admin/Orders'
 import ProfileScreen from '../../screens/Admin/Profile'
 import AdminSettingsScreen from '../../screens/Admin/Profile/Settings'
 import ProfileUpdateScreen from '../../screens/Admin/Profile/screens/ProfileUpdate'
+import CreateCategory from '../../screens/Admin/components/CreateCategory'
+import CreateCategoryScreen from '../../screens/Admin/screens/CreateCategoryScreen'
 import {
   AdminHomeStackParamList,
   AdminOrderStackParamList,
@@ -19,11 +21,28 @@ const HomeStack = createNativeStackNavigator<AdminHomeStackParamList>()
 const OrderStack = createNativeStackNavigator<AdminOrderStackParamList>()
 const ProfileStack = createNativeStackNavigator<AdminProfileStackParamList>()
 
-const AdminHomeStackScreen = () => (
-  <HomeStack.Navigator>
-    <HomeStack.Screen name="Category" component={CategoryScreen} />
-  </HomeStack.Navigator>
-)
+const AdminHomeStackScreen = () => {
+  return (
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Category"
+        component={CategoryScreen}
+        options={{
+          headerRight() {
+            return <CreateCategory />
+          },
+        }}
+      />
+      <HomeStack.Screen
+        name="CreateCategory"
+        component={CreateCategoryScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </HomeStack.Navigator>
+  )
+}
 
 const AdminOrdersStackScreen = () => (
   <OrderStack.Navigator>
