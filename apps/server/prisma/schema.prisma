@@ -39,3 +39,15 @@ model Roles {
 
   @@map("roles")
 }
+
+model Categories {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  alias       String   @unique
+  description String?
+  thumbnail   String?
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("categories")
+}
