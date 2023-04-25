@@ -8,10 +8,9 @@ import { Injectable } from '@nestjs/common';
 import { InternalServerErrorException } from '@nestjs/common/exceptions/internal-server-error.exception';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
-import { UploadFileProvider } from 'src/application/ports/upload-file-provider.service';
 
 @Injectable()
-export class S3Service implements UploadFileProvider {
+export class S3Service {
   private logger = new Logger(S3Service.name);
   private region: string;
   private s3: S3Client;

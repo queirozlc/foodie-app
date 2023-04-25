@@ -5,6 +5,8 @@ type CategoryProps = {
   description: string;
   alias: string;
   thumbnail?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
 
 export class Category {
@@ -12,6 +14,7 @@ export class Category {
   private constructor(readonly props: CategoryProps) {
     this._id = this._id || randomUUID();
     this.props = props;
+    this.props.createdAt = this.props.createdAt || new Date();
   }
 
   get id(): string {
@@ -34,8 +37,17 @@ export class Category {
     return this.props.thumbnail;
   }
 
+  get createdAt(): Date {
+    return this.props.createdAt;
+  }
+
+  get updatedAt(): Date {
+    return this.props.updatedAt;
+  }
+
   updateThumbnail(thumbnail: string): void {
     this.props.thumbnail = thumbnail;
+    this.props.updatedAt = new Date();
   }
 
   public static create(props: CategoryProps): Category {

@@ -14,7 +14,6 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { unlink as fsUnlink } from 'fs';
 import { join } from 'path';
 import { RoleName } from 'src/application/enums/role.enum';
-import { UploadFileProvider } from 'src/application/ports/upload-file-provider.service';
 import { DeleteProfileImageUseCase } from 'src/application/use-cases/user/delete-proilfe-image.usecase';
 import { DeleteUserUseCase } from 'src/application/use-cases/user/delete-user.usecase';
 import { UpdateUserUseCase } from 'src/application/use-cases/user/update-user.usecase';
@@ -31,7 +30,6 @@ export class UserController {
     private readonly deleteProfileImageUseCase: DeleteProfileImageUseCase,
     private readonly updateUserUseCase: UpdateUserUseCase,
     private readonly deleteUserUseCase: DeleteUserUseCase,
-    private readonly uploadFileProvider: UploadFileProvider,
   ) {}
 
   @Post('/:id/profile-image')

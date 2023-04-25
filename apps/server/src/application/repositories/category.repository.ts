@@ -1,9 +1,11 @@
+import { Category } from '../domains/entities/category';
+
 export abstract class CategoryRepository {
-  abstract create(category: any): Promise<any>;
-  abstract update(category: any): Promise<any>;
-  abstract delete(id: string): Promise<any>;
-  abstract findById(id: string): Promise<any>;
-  abstract findByName(name: string): Promise<any>;
-  abstract findByAlias(alias: string): Promise<any>;
-  abstract findAll(): Promise<any>;
+  abstract create(category: Category): Promise<Category>;
+  abstract update(category: Category): Promise<Category>;
+  abstract delete(id: string): Promise<void>;
+  abstract findById(id: string): Promise<Category>;
+  abstract findByName(name: string): Promise<Category>;
+  abstract findByAlias(alias: string): Promise<Category>;
+  abstract findAll(): Promise<Category[]>;
 }

@@ -2,21 +2,24 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { MulterModule } from '@nestjs/platform-express';
-import { UploadFileProvider } from 'src/application/ports/upload-file-provider.service';
+import { LocalFileUploader } from 'src/application/adapters/local-file-uploader';
+import { FileUploader } from 'src/application/ports/file-uploader';
+import { CategoryRepository } from 'src/application/repositories/category.repository';
 import { UserRepository } from 'src/application/repositories/user.repository';
 import { JwtStrategy } from 'src/application/strategies/jwt.strategy';
 import { LocalStrategy } from 'src/application/strategies/local.strategy';
 import { AuthenticateUserUseCase } from 'src/application/use-cases/auth/authenticate-user.usecase';
 import { CreateUserUseCase } from 'src/application/use-cases/auth/create-user.usecase';
 import { ValidateUserUseCase } from 'src/application/use-cases/auth/validate-user.usecase';
+import { CreateCategoryUseCase } from 'src/application/use-cases/categories/create-category';
 import { DeleteProfileImageUseCase } from 'src/application/use-cases/user/delete-proilfe-image.usecase';
 import { DeleteUserUseCase } from 'src/application/use-cases/user/delete-user.usecase';
 import { UpdateUserUseCase } from 'src/application/use-cases/user/update-user.usecase';
 import { UploadProfileImageUseCase } from 'src/application/use-cases/user/upload-profile-image.usecase';
 import { DatabaseModule } from '../database/database.module';
 import { S3Module } from '../s3/s3.module';
-import { S3Service } from '../s3/s3.service';
 import { AuthController } from './controllers/auth/auth.controller';
+import { CreateCategoryController } from './controllers/category/create-category.controller';
 import { UserController } from './controllers/user/user.controller';
 import { RoleGuard } from './guards/role.guard';
 import { LoginValidationMiddleware } from './middleware/login.middleware';
@@ -37,7 +40,7 @@ import { PassportLocalStrategy } from './strategies/passport-local.strategy';
       }),
     }),
   ],
-  controllers: [AuthController, UserController],
+  controllers: [AuthController, UserController, CreateCategoryController],
   providers: [
     ValidateUserUseCase,
     CreateUserUseCase,
@@ -58,12 +61,23 @@ import { PassportLocalStrategy } from './strategies/passport-local.strategy';
       useClass: PassportLocalStrategy,
     },
     {
-      provide: UploadFileProvider,
-      useClass: S3Service,
-    },
-    {
       provide: JwtStrategy,
       useClass: PassportJwtStrategy,
+    },
+    {
+      provide: FileUploader,
+      useClass: LocalFileUploader,
+    },
+    {
+      provide: LocalFileUploader,
+      useClass: LocalFileUploader,
+    },
+    {
+      provide: CreateCategoryUseCase,
+      useFactory(repository: CategoryRepository, fileUploader: FileUploader) {
+        return new CreateCategoryUseCase(repository, fileUploader);
+      },
+      inject: [CategoryRepository, FileUploader],
     },
   ],
 })
