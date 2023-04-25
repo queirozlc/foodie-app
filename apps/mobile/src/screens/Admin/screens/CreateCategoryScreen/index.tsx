@@ -17,13 +17,23 @@ export default function CreateCategoryScreen() {
         activeOpacity={0.8}
         onPress={() => handlePickImage()}
       >
-        <Image
-          source={require('../../../../../assets/image_new.png')}
-          style={{
-            resizeMode: 'contain',
-          }}
-          className="w-40 h-40"
-        />
+        {image ? (
+          <Image
+            source={{ uri: image }}
+            style={{
+              resizeMode: 'contain',
+            }}
+            className="w-40 h-40"
+          />
+        ) : (
+          <Image
+            source={require('../../../../../assets/image_new.png')}
+            style={{
+              resizeMode: 'contain',
+            }}
+            className="w-40 h-40"
+          />
+        )}
       </TouchableOpacity>
       <View className="bg-white flex-1 rounded-t-[40px] p-12">
         <CreateCategoryForm />

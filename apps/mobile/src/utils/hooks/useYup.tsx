@@ -21,9 +21,16 @@ export function useYup() {
     email: yup.string().email('Email invalid').required('Email is required'),
   })
 
+  const createCategorySchema = yup.object().shape({
+    name: yup.string().required('Name is required'),
+    description: yup.string().required('Description is required'),
+    alias: yup.string().required('Alias is required'),
+  })
+
   return {
     signUpSchema,
     signInSchema,
     updateUserSchema,
+    createCategorySchema,
   }
 }
