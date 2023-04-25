@@ -11,10 +11,12 @@ type CategoryProps = {
 
 export class Category {
   private _id: string;
-  private constructor(readonly props: CategoryProps) {
+  private _props: CategoryProps;
+
+  private constructor(private readonly props: CategoryProps) {
     this._id = this._id || randomUUID();
-    this.props = props;
-    this.props.createdAt = this.props.createdAt || new Date();
+    this._props = props;
+    this._props.createdAt = this.props.createdAt || new Date();
   }
 
   get id(): string {

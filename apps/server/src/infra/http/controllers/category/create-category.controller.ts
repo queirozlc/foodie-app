@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CreateCategoryUseCase } from 'src/application/use-cases/categories/create-category';
-import { CreateCategoryDTO } from 'src/application/use-cases/categories/dtos/create-category-request';
-import { CreateCategoryResponse } from 'src/application/use-cases/categories/dtos/create-category-response';
+import { CreateCategoryUseCase } from 'src/application/use-cases/categories/create-category/create-category';
+import { CreateCategoryDTO } from 'src/application/use-cases/categories/create-category/dtos/create-category-request';
+import { CreateCategoryResponse } from 'src/application/use-cases/categories/create-category/dtos/create-category-response';
 
 @Controller('categories')
 export class CreateCategoryController {

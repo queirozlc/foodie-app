@@ -11,7 +11,8 @@ import { LocalStrategy } from 'src/application/strategies/local.strategy';
 import { AuthenticateUserUseCase } from 'src/application/use-cases/auth/authenticate-user.usecase';
 import { CreateUserUseCase } from 'src/application/use-cases/auth/create-user.usecase';
 import { ValidateUserUseCase } from 'src/application/use-cases/auth/validate-user.usecase';
-import { CreateCategoryUseCase } from 'src/application/use-cases/categories/create-category';
+import { CreateCategoryUseCase } from 'src/application/use-cases/categories/create-category/create-category';
+import { FindAllCategoriesUseCase } from 'src/application/use-cases/categories/find-all-categories';
 import { DeleteProfileImageUseCase } from 'src/application/use-cases/user/delete-proilfe-image.usecase';
 import { DeleteUserUseCase } from 'src/application/use-cases/user/delete-user.usecase';
 import { UpdateUserUseCase } from 'src/application/use-cases/user/update-user.usecase';
@@ -20,6 +21,7 @@ import { DatabaseModule } from '../database/database.module';
 import { S3Module } from '../s3/s3.module';
 import { AuthController } from './controllers/auth/auth.controller';
 import { CreateCategoryController } from './controllers/category/create-category.controller';
+import { FindAllCategoriesController } from './controllers/category/find-all-categories.controller';
 import { UserController } from './controllers/user/user.controller';
 import { RoleGuard } from './guards/role.guard';
 import { LoginValidationMiddleware } from './middleware/login.middleware';
@@ -40,7 +42,12 @@ import { PassportLocalStrategy } from './strategies/passport-local.strategy';
       }),
     }),
   ],
-  controllers: [AuthController, UserController, CreateCategoryController],
+  controllers: [
+    AuthController,
+    UserController,
+    CreateCategoryController,
+    FindAllCategoriesController,
+  ],
   providers: [
     ValidateUserUseCase,
     CreateUserUseCase,
@@ -78,6 +85,13 @@ import { PassportLocalStrategy } from './strategies/passport-local.strategy';
         return new CreateCategoryUseCase(repository, fileUploader);
       },
       inject: [CategoryRepository, FileUploader],
+    },
+    {
+      provide: FindAllCategoriesUseCase,
+      useFactory(repository: CategoryRepository) {
+        return new FindAllCategoriesUseCase(repository);
+      },
+      inject: [CategoryRepository],
     },
   ],
 })
